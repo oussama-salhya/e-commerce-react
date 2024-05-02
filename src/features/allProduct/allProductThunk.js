@@ -1,12 +1,12 @@
-import customFetch, { checkForUnauthenticatedError } from "../../utils/axios";
+// import customFetch, { checkForUnauthenticatedError } from "../../utils/axios";
 import {
   clearFilters,
-  clearSingleProductValues,
+  // clearSingleProductValues,
   getAllProducts,
   getFilteredProducts,
   setProgressPercentage,
   setupFilters,
-} from "./ProductsSlice";
+} from "./allProductSlice";
 
 export const getAllProductsThunk = async (_, thunkAPI) => {
   const { search } = thunkAPI.getState().products;

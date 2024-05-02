@@ -1,10 +1,11 @@
-import { FeaturedProducts, Hero } from '../components';
+import { FeaturedProducts, Hero } from "../components";
 
-import { customFetch } from '../utils';
-const url = '/products?featured=true';
+import { customFetch } from "../utils";
+
+const url = "/products?featured=true";
 
 const featuredProductsQuery = {
-  queryKey: ['featuredProducts'],
+  queryKey: ["featuredProducts"],
   queryFn: () => customFetch(url),
 };
 

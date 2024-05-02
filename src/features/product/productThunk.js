@@ -6,7 +6,7 @@ import {
   getFilteredProducts,
   setProgressPercentage,
   setupFilters,
-} from "./ProductsSlice";
+} from "../allProduct/allProductSlice";
 
 export const getSingleProductThunk = async (id, thunkAPI) => {
   const url = `/products/${id}`;

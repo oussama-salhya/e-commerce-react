@@ -5,12 +5,15 @@ import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
   themes,
+  getThemeFromLocalStorage,
 } from "../../utils/localStorage";
 import {
   loginUserThunk,
   registerUserThunk,
   updateUserThunk,
   clearStoreThunk,
+  logoutUserThunk,
+  showMeUserThunk,
 } from "./userThunk";
 import { errorMsg, successMsg } from "../../utils/msgService";
 
@@ -20,11 +23,22 @@ export const registerUser = createAsyncThunk(
     return registerUserThunk("/auth/register", user, thunkAPI);
   }
 );
-
+export const clearStore = createAsyncThunk(
+  "user/clearStore",
+  async (user, thunkAPI) => {
+    return clearStoreThunk(thunkAPI);
+  }
+);
 export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (user, thunkAPI) => {
     return loginUserThunk("/auth/login", user, thunkAPI);
+  }
+);
+export const logoutUser = createAsyncThunk(
+  "user/logout",
+  async (user, thunkAPI) => {
+    return logoutUserThunk("/auth/logout", user, thunkAPI);
   }
 );
 
@@ -34,20 +48,22 @@ export const updateUser = createAsyncThunk(
     return updateUserThunk("/auth/updateUser", user, thunkAPI);
   }
 );
-// todo make the thunk
-export const logoutUser = createAsyncThunk(
-  "user/logout",
-  async (user, thunkAPI) => {
-    return updateUserThunk("/auth/logout", user, thunkAPI);
-  }
-);
+// // todo make the thunk
+// export const logoutUser = createAsyncThunk(
+//   "user/logout",
+//   async (user, thunkAPI) => {
+//     return logoutUserThunk("/auth/logout", user, thunkAPI);
+//   }
+// );
 export const showMe = createAsyncThunk(
   "user/showMe",
   async (user, thunkAPI) => {
-    return updateUserThunk("/auth/showMe", user, thunkAPI);
+    return showMeUserThunk("/auth/showMe", user, thunkAPI);
   }
 );
-export const clearStore = createAsyncThunk("user/clearStore", clearStoreThunk);
+
+// export const clearStore = createAsyncThunk("user/clearStore", clearStoreThunk);
+
 // export const verifyEmail = createAsyncThunk(
 //   "user/verifyEmail",
 //   async (user, thunkAPI) => {
@@ -72,13 +88,12 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logoutUser: (state, { payload }) => {
+    clearUserValues: (state) => {
+      console.log("l");
       state.user = null;
       state.isSidebarOpen = false;
       removeUserFromLocalStorage();
-      if (payload) {
-        toast.success(payload);
-      }
+      toast.success("Logged Out!");
     },
     toggleTheme: (state) => {
       const { dark, light } = themes;
@@ -115,7 +130,7 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
         state.isLoading = false;
-        toast.error(payload);
+        errorMsg(payload);
       })
       .addCase(updateUser.pending, (state) => {
         state.isLoading = true;
@@ -171,5 +186,6 @@ const userSlice = createSlice({
       });
   },
 });
-export const { toggleSidebar, toggleTheme } = userSlice.actions;
+export const { toggleSidebar, toggleTheme, clearUserValues } =
+  userSlice.actions;
 export default userSlice.reducer;

@@ -13,7 +13,7 @@ export const getUserFromLocalStorage = () => {
 };
 export const themes = {
   light: "light",
-  dark: "dark",
+  dark: "dracula",
 };
 export const getThemeFromLocalStorage = () => {
   const theme = localStorage.getItem("theme") || themes.light;

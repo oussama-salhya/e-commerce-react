@@ -1,46 +1,85 @@
-import { FormInput, SubmitBtn } from '../components';
-import { Form, Link, redirect } from 'react-router-dom';
-import { customFetch } from '../utils';
-import { toast } from 'react-toastify';
+import { FormInput, SubmitBtn, FormRow } from "../components";
+import { Form, Link, redirect, useNavigate } from "react-router-dom";
+import { customFetch } from "../utils";
+import { loginUser, registerUser } from "../features/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { errorMsg } from "../utils/msgService";
+import { useEffect, useState } from "react";
 
-export const action = async ({ request }) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-
-  try {
-    const response = await customFetch.post('/auth/local/register', data);
-    toast.success('account created successfully');
-    return redirect('/login');
-  } catch (error) {
-    const errorMessage =
-      error?.response?.data?.error?.message ||
-      'please double check your credentials';
-    toast.error(errorMessage);
+export const action =
+  (store) =>
+  async ({ request }) => {
+    const formData = await request.formData();
+    const { name, email, password } = Object.fromEntries(formData);
+    if (!email || !password || !name) {
+      errorMsg("Please fill out all fields");
+      return null;
+    }
+    store.dispatch(registerUser({ name, email, password }));
+    redirect("/login");
     return null;
-  }
-};
+  };
 
+const initialState = {
+  name: "",
+  email: "",
+  password: "",
+};
 const Register = () => {
+  const [values, setValues] = useState(initialState);
+  const { user, isLoading } = useSelector((store) => store.userState);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setValues({ ...values, [name]: value });
+  };
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    }
+  }, [user]);
   return (
-    <section className='h-screen grid place-items-center'>
+    <section className="h-screen grid place-items-center">
       <Form
-        method='POST'
-        className='card w-96 p-8 bg-base-100 shadow-lg flex flex-col gap-y-4'
+        method="post"
+        className="card w-96  p-8 bg-base-100 shadow-lg flex flex-col gap-y-4"
       >
-        <h4 className='text-center text-3xl font-bold'>Register</h4>
-        <FormInput type='text' label='username' name='username' />
-        <FormInput type='email' label='email' name='email' />
-        <FormInput type='password' label='password' name='password' />
-        <div className='mt-4'>
-          <SubmitBtn text='register' />
-        </div>
-        <p className='text-center'>
-          Already a member?
-          <Link
-            to='/login'
-            className='ml-2 link link-hover link-primary capitalize'
-          >
-            login
+        <h3>Register</h3>
+        {/* name field */}
+        {!values.isMember && (
+          <FormRow
+            type="text"
+            name="name"
+            value={values.name}
+            handleChange={handleChange}
+          />
+        )}
+        {/* email field */}
+        <FormRow
+          type="email"
+          name="email"
+          value={values.email}
+          handleChange={handleChange}
+        />
+        {/* password field */}
+        <FormRow
+          type="password"
+          name="password"
+          value={values.password}
+          handleChange={handleChange}
+        />
+        <button type="submit" className="btn btn-block" disabled={isLoading}>
+          {isLoading ? "loading..." : "submit"}
+        </button>
+        <p>
+          Already a member : &nbsp;
+          <Link to="/login">
+            <button type="button">Login</button>
           </Link>
         </p>
       </Form>

@@ -1,7 +1,13 @@
 import { toast } from "react-toastify";
 
-export const errorMsg = (message) => {
-  toast.error(message);
+export const errorMsg = (payload) => {
+  if (payload.message) {
+    toast.error(payload.message);
+  } else {
+    for (const key in payload) {
+      toast.error(payload[key]);
+    }
+  }
 };
 export const successMsg = (message) => {
   toast.success(message);
