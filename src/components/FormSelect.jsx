@@ -1,8 +1,8 @@
 const FormSelect = ({ label, name, list, defaultValue, size }) => {
   return (
-    <div className='form-control'>
-      <label htmlFor={name} className='label'>
-        <span className='label-text capitalize'>{label}</span>
+    <div className="form-control">
+      <label htmlFor={name} className="label">
+        <span className="label-text capitalize">{label}</span>
       </label>
       <select
         name={name}
@@ -12,8 +12,8 @@ const FormSelect = ({ label, name, list, defaultValue, size }) => {
       >
         {list.map((item) => {
           return (
-            <option key={item} value={item}>
-              {item}
+            <option key={item.id} value={item.name}>
+              {item.name}
             </option>
           );
         })}

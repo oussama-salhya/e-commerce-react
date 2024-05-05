@@ -52,7 +52,7 @@ export const logoutUserThunk = async (url, thunkAPI) => {
 };
 export const showMeUserThunk = async (url, thunkAPI) => {
   try {
-    const resp = await customFetch.post(url);
+    const resp = await customFetch.get(url);
     return resp.data;
   } catch (error) {
     return checkForUnauthorizedResponse(error, thunkAPI);

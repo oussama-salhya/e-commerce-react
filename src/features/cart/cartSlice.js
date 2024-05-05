@@ -19,16 +19,11 @@ const cartSlice = createSlice({
   reducers: {
     addItem: (state, action) => {
       const { product } = action.payload;
-      const item = state.cartItems.find((i) => i.cartID === product.cartID);
+      // const item = state.cartItems.find((i) => i.cartID === product.cartID);
       // state.numItemsInCart += product.amount;
-      action.payload = {
-        id,
-        stock,
-        name,
-        price,
-        amount,
-        image,
-      };
+      console.log("product", product);
+      const { cartID, id, stock, name, price, productColor, amount, image } =
+        product;
       const tempItem = state.cartItems.find((item) => item.id === id);
       let newCart = [...state.cartItems];
       if (tempItem) {
@@ -51,7 +46,10 @@ const cartSlice = createSlice({
           return item;
         });
       } else {
-        newCart = [...newCart, { id, amount, stock, name, price, image }];
+        newCart = [
+          ...newCart,
+          { cartID, id, amount, stock, name, price, image, productColor },
+        ];
         state.cartTotal += price * amount;
         successMsg("Item added to cart");
       }

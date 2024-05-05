@@ -1,11 +1,31 @@
 import axios from "axios";
-
-// const productionUrl = ' https://strapi-store-server.onrender.com/api';
+import { removeUserFromLocalStorage } from "./localStorage";
 
 export const customFetch = axios.create({
   baseURL: "/api/v1",
 });
 
+// customFetch.interceptors.request.use((config) => {
+//   const user = getUserFromLocalStorage();
+//   if (user) {
+//     config.headers["Authorization"] = `Bearer ${user.token}`;
+//   }
+//   return config;
+// });
+
+customFetch.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    console.log(error);
+    if (error.response && error.response.status === 403) {
+      removeUserFromLocalStorage();
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
 export const formatPrice = (price) => {
   const dollarsAmount = new Intl.NumberFormat("en-US", {
     style: "currency",
