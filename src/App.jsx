@@ -18,6 +18,7 @@ import {
 import {
   DashboardProtectedRoute,
   SharedDashboardLayout,
+  AddProductDashboard,
 } from "./pages/dashboard";
 import { ErrorElement } from "./components";
 
@@ -120,12 +121,12 @@ const router = createBrowserRouter([
       //       errorElement: <ErrorElement />,
       //       loader: productsLoader(queryClient),
       //     },
-      //     {
-      //       path: "add-product",
-      //       element: <AddProductDashboard />,
-      //       errorElement: <ErrorElement />,
-      //       loader: productsLoader(queryClient),
-      //     },
+      {
+        path: "add-product",
+        element: <AddProductDashboard />,
+        errorElement: <ErrorElement />,
+        // loader: productsLoader(queryClient),
+      },
       //     {
       //       path: "products",
       //       element: <DashboardProducts />,

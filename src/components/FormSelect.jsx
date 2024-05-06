@@ -1,4 +1,11 @@
-const FormSelect = ({ label, name, list, defaultValue, size }) => {
+const FormSelect = ({
+  label,
+  name,
+  list,
+  defaultValue,
+  size,
+  handleChange,
+}) => {
   return (
     <div className="form-control">
       <label htmlFor={name} className="label">
@@ -9,6 +16,7 @@ const FormSelect = ({ label, name, list, defaultValue, size }) => {
         id={name}
         className={`select select-bordered ${size}`}
         defaultValue={defaultValue}
+        onChange={handleChange}
       >
         {list.map((item) => {
           return (

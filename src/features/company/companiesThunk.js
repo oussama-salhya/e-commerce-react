@@ -1,9 +1,9 @@
 import { customFetch } from "../../utils";
 import { checkForUnauthorizedResponse } from "../../utils/axios";
-import { clearValues, getAllCategories } from "./categoriesSlice";
+import { clearValues, getAllCompanies } from "./companiesSlice";
 
-export const getAllCategoriesThunk = async () => {
-  const url = `/categories`;
+export const getAllCompaniesThunk = async () => {
+  const url = `/companies`;
   try {
     const { data } = await customFetch.get(url);
     return data;
@@ -12,46 +12,46 @@ export const getAllCategoriesThunk = async () => {
   }
 };
 
-export const createCategoryThunk = async (_, thunkAPI) => {
-  const { name, image } = thunkAPI.getState().categories;
-  const url = `/categories`;
+export const createCompanyThunk = async (_, thunkAPI) => {
+  const { name, image } = thunkAPI.getState().companies;
+  const url = `/companies`;
   try {
     await customFetch.post(url, { name, image });
     thunkAPI.dispatch(clearValues());
-    thunkAPI.dispatch(getAllCategories());
+    thunkAPI.dispatch(getAllCompanies());
   } catch (error) {
     checkForUnauthorizedResponse(error, thunkAPI);
     return thunkAPI.rejectWithValue(error.response.data.msg);
   }
 };
 
-export const updateCategoryThunk = async (_, thunkAPI) => {
-  const { idCategory: id, name, image } = thunkAPI.getState().categories;
-  const url = `/categories/${id}`;
+export const updateCompanyThunk = async (_, thunkAPI) => {
+  const { idCompany: id, name, image } = thunkAPI.getState().companies;
+  const url = `/companies/${id}`;
   try {
     await customFetch.patch(url, { name, image });
     thunkAPI.dispatch(clearValues());
-    thunkAPI.dispatch(getAllCategories());
+    thunkAPI.dispatch(getAllCompanies());
   } catch (error) {
     checkForUnauthorizedResponse(error, thunkAPI);
     return thunkAPI.rejectWithValue(error.response.data.msg);
   }
 };
 
-export const deleteCategoryThunk = async (id, thunkAPI) => {
-  const url = `/categories/${id}`;
+export const deleteCompanyThunk = async (id, thunkAPI) => {
+  const url = `/companies/${id}`;
   try {
     await customFetch.delete(url);
     thunkAPI.dispatch(clearValues());
-    thunkAPI.dispatch(getAllCategories());
+    thunkAPI.dispatch(getAllCompanies());
   } catch (error) {
     checkForUnauthorizedResponse(error, thunkAPI);
     return thunkAPI.rejectWithValue(error.response.data.msg);
   }
 };
 
-export const getTotalOrdersByCategoryThunk = async (_, thunkAPI) => {
-  const url = "/orders/get-total-orders-by-category";
+export const getTotalOrdersByCompanyThunk = async (_, thunkAPI) => {
+  const url = "/orders/get-total-orders-by-company";
   try {
     const { data } = await customFetch.get(url);
     return data;
@@ -60,8 +60,9 @@ export const getTotalOrdersByCategoryThunk = async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue(error.response.data.msg);
   }
 };
-export const getSingleCategoryThunk = async (name) => {
-  const url = `/categories/${name}`;
+
+export const getSingleCompanyThunk = async (name) => {
+  const url = `/companies/${name}`;
   try {
     const { data } = await customFetch.get(url);
     return data;

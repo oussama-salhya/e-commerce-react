@@ -56,7 +56,7 @@ const SingleProduct = () => {
     company,
     productColor,
     amount,
-    stock: inventory,
+    stock,
   };
   console.log("cartID", product);
   const dispatch = useDispatch();

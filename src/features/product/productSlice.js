@@ -4,10 +4,10 @@ import {
   deleteProductThunk,
   editProductThunk,
   getSingleProductThunk,
-  uploadImagesThunk,
+  // uploadImagesThunk,
 } from "./productThunk";
 import { errorMsg, successMsg } from "../../utils/msgService";
-const singleProduct = {
+const initialState = {
   images: [],
   mainImgIndex: 0,
   name: "",
@@ -42,8 +42,16 @@ export const deleteProduct = createAsyncThunk(
 );
 const ProductSlice = createSlice({
   name: "product",
-  singleProduct,
+  initialState,
   reducers: {
+    handleChange: (state, { payload: { name, value } }) => {
+      // in case the field is an array
+      if (Array.isArray(state[name])) {
+        state[name] = [value];
+      } else {
+        state[name] = value;
+      }
+    },
     clearSingleProductValues: (state) => {
       return { isEditing: false, singleProduct };
     },
@@ -67,48 +75,50 @@ const ProductSlice = createSlice({
       state.averageRating = averageRating;
     },
   },
-  extraReducers: {
-    [getSingleProduct.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [getSingleProduct.fulfilled]: (state, { payload }) => {
-      state = payload.product;
-      state.isLoading = false;
-    },
-    [getSingleProduct.rejected]: (state, { payload }) => {
-      errorMsg(payload.msg);
-      state.isLoading = false;
-    },
-    [createProduct.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [createProduct.fulfilled]: (state) => {
-      state.isLoading = false;
-      state.singleProduct = singleProduct;
-      successMsg("product has been created successfully");
-    },
-    [createProduct.rejected]: (state, { payload }) => {
-      errorMsg(payload.msg);
-      state.isLoading = false;
-    },
-    [editProduct.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [editProduct.fulfilled]: (state) => {
-      successMsg("Product has been edited successfully");
-      state.isLoading = false;
-      state.singleProduct = singleProduct;
-    },
-    [editProduct.rejected]: (state, { payload }) => {
-      errorMsg(payload.msg);
-      state.isLoading = false;
-    },
-    [deleteProduct.fulfilled]: (state) => {
-      successMsg("Product has been deleted successfully");
-    },
-    [deleteProduct.rejected]: (state, { payload }) => {
-      errorMsg(payload.msg);
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getSingleProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSingleProduct.fulfilled, (state, { payload }) => {
+        state.product = payload.product;
+        state.isLoading = false;
+      })
+      .addCase(getSingleProduct.rejected, (state, { payload }) => {
+        errorMsg(payload.msg);
+        state.isLoading = false;
+      })
+      .addCase(createProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createProduct.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.singleProduct = payload.product;
+        successMsg("product has been created successfully");
+      })
+      .addCase(createProduct.rejected, (state, { payload }) => {
+        console.log(payload);
+        errorMsg(payload);
+        state.isLoading = false;
+      })
+      .addCase(editProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(editProduct.fulfilled, (state, { payload }) => {
+        successMsg("Product has been edited successfully");
+        state.isLoading = false;
+        state.singleProduct = payload.product;
+      })
+      .addCase(editProduct.rejected, (state, { payload }) => {
+        errorMsg(payload.msg);
+        state.isLoading = false;
+      })
+      .addCase(deleteProduct.fulfilled, (state) => {
+        successMsg("Product has been deleted successfully");
+      })
+      .addCase(deleteProduct.rejected, (state, { payload }) => {
+        errorMsg(payload.msg);
+      });
   },
 });
 
@@ -118,6 +128,7 @@ export const {
   appendImgtoSingleProductImages,
   changeSingleProductValues,
   deleteImgFromSingleProductImages,
+  handleChange,
 } = ProductSlice.actions;
 
 export default ProductSlice.reducer;

@@ -16,3 +16,4 @@ export { default as CheckoutForm } from "./CheckoutForm";
 export { default as OrdersList } from "./OrdersList";
 export { default as ComplexPaginationContainer } from "./ComplexPaginationContainer";
 export { default as FormRow } from "./FormRow";
+export { default as FormSelect } from "./FormSelect";

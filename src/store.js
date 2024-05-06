@@ -1,11 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import cartReducer from "./features/cart/cartSlice";
 import userReducer from "./features/user/userSlice";
 // import reviewsReducer from "./features/reviews/reviewsSlice";
-// import productReducer from "./features/product/productSlice";
+import productReducer from "./features/product/productSlice";
 // import orderReducer from "./features/orders/orderSlice";
-// import categoriesReducer from "./features/categories/categoriesSlice";
+import categoriesReducer from "./features/categories/categoriesSlice";
+import companiesSlice from "./features/company/companiesSlice";
 // import allProductReducer from "./features/allProduct/allProductSlice";
 
 export const store = configureStore({
@@ -13,9 +14,10 @@ export const store = configureStore({
     cartState: cartReducer,
     userState: userReducer,
     // reviewsState: reviewsReducer,
-    // productState: productReducer,
+    productState: productReducer,
     // orderState: orderReducer,
-    // categoriesState: categoriesReducer,
+    categoriesState: categoriesReducer,
+    companiesState: companiesSlice,
     // allProductState: allProductReducer,
   },
 });

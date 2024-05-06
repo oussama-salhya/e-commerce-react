@@ -77,7 +77,8 @@ const categoriesSlice = createSlice({
     },
     [getAllCategories.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      state.categories = payload.categories;
+      console.log(payload);
+      state.categories = payload;
     },
     [getAllCategories.rejected]: (state, { payload }) => {
       state.isLoading = false;

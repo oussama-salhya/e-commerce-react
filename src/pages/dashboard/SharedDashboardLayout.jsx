@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 // import { closeActionsButton } from "../Features/products/ProductsSlice";
 import { showMe } from "../../features/user/userSlice";
+import { getAllCategories } from "../../features/categories/categoriesSlice";
 const SharedDashboardLayout = () => {
   const [isSidebaropen, setIsSidebarOpen] = useState(true);
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const SharedDashboardLayout = () => {
   };
   useEffect(() => {
     dispatch(showMe());
+    // dispatch(getAllCategories());
   }, []);
   return (
     <Wrapper>

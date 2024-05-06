@@ -2,8 +2,8 @@
 import {
   clearFilters,
   // clearSingleProductValues,
-  getAllProducts,
-  getFilteredProducts,
+  // getAllProducts,
+  // getFilteredProducts,
   setProgressPercentage,
   setupFilters,
 } from "./allProductSlice";

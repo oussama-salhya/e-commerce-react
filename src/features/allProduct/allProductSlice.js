@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   getAllProductsThunk,
-  getFilteredProductsThunk,
-  getSearchSuggestionsThunk,
-  uploadImagesThunk,
+  // getFilteredProductsThunk,
+  // getSearchSuggestionsThunk,
+  // uploadImagesThunk,
 } from "./allProductThunk";
 
 const initialFilters = {
@@ -50,22 +50,22 @@ export const getAllProducts = createAsyncThunk(
   "products/getAllProducts",
   getAllProductsThunk
 );
-export const getSingleProduct = createAsyncThunk(
-  "products/getSingleProduct",
-  getSingleProductThunk
-);
-export const createProduct = createAsyncThunk(
-  "products/createProduct",
-  createProductThunk
-);
-export const editProduct = createAsyncThunk(
-  "products/editProduct",
-  editProductThunk
-);
-export const deleteProduct = createAsyncThunk(
-  "products/deleteProduct",
-  deleteProductThunk
-);
+// export const getSingleProduct = createAsyncThunk(
+//   "products/getSingleProduct",
+//   getSingleProductThunk
+// );
+// export const createProduct = createAsyncThunk(
+//   "products/createProduct",
+//   createProductThunk
+// );
+// export const editProduct = createAsyncThunk(
+//   "products/editProduct",
+//   editProductThunk
+// );
+// export const deleteProduct = createAsyncThunk(
+//   "products/deleteProduct",
+//   deleteProductThunk
+// );
 const ProductsSlice = createSlice({
   name: "products",
   initialState,
@@ -257,25 +257,25 @@ const ProductsSlice = createSlice({
     [getAllProducts.rejected]: (state, { payload }) => {
       state.isLoading = false;
     },
-    [getFilteredProducts.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [getFilteredProducts.fulfilled]: (state, { payload }) => {
-      state.totalProducts = payload.totalProducts;
-      state.numOfPages = payload.numOfPages;
-      state.isLoading = false;
-      if (state.page > 1) {
-        state.products.push(...payload.products);
-      } else {
-        state.products = payload.products;
-      }
-    },
-    [getFilteredProducts.rejected]: (state, { payload }) => {
-      state.isLoading = false;
-    },
-    [getSearchSuggestions.fulfilled]: (state, { payload }) => {
-      state.searchSuggestions = payload;
-    },
+    // [getFilteredProducts.pending]: (state) => {
+    //   state.isLoading = true;
+    // },
+    // [getFilteredProducts.fulfilled]: (state, { payload }) => {
+    //   state.totalProducts = payload.totalProducts;
+    //   state.numOfPages = payload.numOfPages;
+    //   state.isLoading = false;
+    //   if (state.page > 1) {
+    //     state.products.push(...payload.products);
+    //   } else {
+    //     state.products = payload.products;
+    //   }
+    // },
+    // [getFilteredProducts.rejected]: (state, { payload }) => {
+    //   state.isLoading = false;
+    // },
+    // [getSearchSuggestions.fulfilled]: (state, { payload }) => {
+    //   state.searchSuggestions = payload;
+    // },
   },
 });
 
